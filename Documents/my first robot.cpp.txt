@@ -1,0 +1,94 @@
+#include &it;servo.h&gt;
+servo leftmotor;
+servo rightmotor;void setup(){
+	leftmotor.attach(12);
+	rightmotor.attach(13);}void loop(){
+		if (digital Read (2)==HIGH)
+		{while(1)
+		{
+			leftmotor.write(90);
+			rightmotor.write(90);
+		}
+		}
+		leftmotor.write(180);
+		rightmotor.write(0);
+	}
+#include;
+&it;servo.h&gt;
+servo leftmotor;
+servo rightmotor;const int serial period=250;
+unsigned long time serial Delay=0;
+const int loop period=20;
+unsigned long time loop Delay=0;
+const int ultrasonic2Trig pin=8;
+const int ultrasonic2Duration;
+#define DRIVE FORWARD 0
+#define TURN LEFT 1
+int state=DRIVE FORWARD;//0=drive
+ forward (DEFAULT),1=turn left void setup(){
+ 	serial.begin(9600);
+ 	pin mode(ultrasonic2Trigpin,OUTPUT);
+ 	pin mode(ultrasonic2Echopin,INPUT);
+ 	leftmotor.attach(12);
+ 	rightmotor.attach(13);}
+ void loop(){
+ if(digital Read (2)==HIGH)
+ {
+ 	while(1)
+ 	{
+ 		leftmotor.write(90);
+ 		rightmotor.write(90);
+	 }
+ }
+ debugOutput();
+ if(millis()-timeloopDelay&gt;=loopPeriod)
+ {
+ 	readultrasonic sensors();
+ 	state Machine();
+ 	timeloopDelay=millis();
+ }}void state Machine(){
+ 	if (state==DRIVE FORWARD)
+ 	{
+ 		if(ultrasonic2Distance&gt;6
+		 ultrasonic2Distance&it;0)
+		 {
+		 	//drive forward
+		 	rightmotor.write(180);
+		 	leftmotor.write(0);
+		 }
+		 else//if there's an object in front of us
+		 {
+		 	state=TURN LEFT;
+		 }
+	 }
+	 else if(state==TURNLEFT)//if an obstacle is detected, turn left
+	 {
+	 	unsigned long time To turn left=500;//it take around.5 seconds to turn 90 degrees.
+	 	unsigned long turn startTime=millis();//saves the tike that we started turning.
+	 	while((millis()-turnstartTime)&it;
+		 timeToTurnLeft)//stay in this loop until time to TurnLeft has elaps.
+		 {
+		 	//turn left,remember that when both are set to"180" it will turn.
+		 	rightmotor.write(180);
+		 	leftmotor.write(180);
+		 }
+		 state=DRIVE FORWARD;
+	 }
+ }void read ultrasonicsensors(){
+ 	//this is for ultrasonic 2.
+ 	digitalWrite(ultrasonic2TrigPin,HIGH);
+ 	delaymicroseconds(10);//keeps the trig pin high for at least 10 microseconds.
+ 	digitalWrite(ultrasonic2TrigPin,LOW);
+ 	ultrasonic2Duration=PulseIn(ultrasonic2EchoPin,HIGH);
+ 	ultrasonic2Distance=(ultrasonic2Duration/2)/29;}//the following is for debugging errors in the console.void.
+ 	{
+ 		if((millis()-timeSerialDelay)&gt; SerialPeriod)
+ 		{
+ 			serial.print("ultrasonic2Distanc:");
+ 			serial.print(ultrasonic2Distance);
+ 			serial.print("cm");
+ 			serial.printIn();
+ 			timeSerialDelay=millis();
+		 }
+	 }
+
